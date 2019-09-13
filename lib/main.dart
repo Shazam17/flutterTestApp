@@ -75,35 +75,11 @@ class RealAppState extends State<RealApp>{
           child: isLoading ? new CircularProgressIndicator() : new ListView.builder(
               itemCount: this.recipes != null ? this.recipes.length : 0,
               itemBuilder: (context , i){
-                final name = recipes[i]["name"];
-                final description = recipes[i]["description"];
-
-                return new Container(
-                  margin: new EdgeInsets.all(20),
-                  decoration: new BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: new BorderRadius.circular(40),
-
-                  ),
-
-                  child: new Column(
-                    children: <Widget>[
-                      new Divider(),
-                      new Image.network(recipes[i]["images"][0]),
-                      new Container(
-                        padding: new EdgeInsets.all(10.0),
-                        child: new Column(
-                          children: <Widget>[
-                            new Text(name,style: new TextStyle(fontSize: 16.0),
-                            ),
-                            new Text(description != null ? description : " ")
-                          ],
-                        ),
-                      ),
-
-                    ],
-                  )
-                  );
+                return new FlatButton(onPressed: (){
+                    Navigator.push(context,new MaterialPageRoute(
+                        builder:(context) => new RecipeDetails(recipes[i]))
+                    );
+                }, child: new RecipeWidget(recipes[i]));
               }
 
           ),
@@ -111,4 +87,64 @@ class RealAppState extends State<RealApp>{
       ),
     );
   }
+}
+
+class RecipeWidget extends StatelessWidget{
+
+  final recipe;
+
+  RecipeWidget(this.recipe);
+
+  @override
+  Widget build(BuildContext context) {
+
+    final description = recipe["description"];
+    final name = recipe["name"];
+
+    return new Container(
+        margin: new EdgeInsets.all(20),
+        decoration: new BoxDecoration(
+          color: Colors.green,
+          borderRadius: new BorderRadius.circular(40),
+
+        ),
+
+        child: new Column(
+          children: <Widget>[
+            new Divider(),
+            new Image.network(recipe["images"][0]),
+            new Container(
+              padding: new EdgeInsets.all(10.0),
+              child: new Column(
+                children: <Widget>[
+                  new Text(name,style: new TextStyle(fontSize: 16.0),
+                  ),
+                  new Text(description != null ? description : " ")
+                ],
+              ),
+            ),
+
+          ],
+        )
+    );
+  }
+}
+
+class RecipeDetails extends StatelessWidget{
+
+  final recipe;
+
+  RecipeDetails(this.recipe);
+
+
+  @override
+  Widget build(BuildContext context) {
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text(recipe["name"]),
+        ),
+       body: new RecipeWidget(recipe) ,
+      );
+  }
+
 }
