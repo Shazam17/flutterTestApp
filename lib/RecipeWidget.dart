@@ -32,7 +32,7 @@ class RecipeWidget extends StatelessWidget {
                     name,
                     style: TextStyle(fontSize: 16.0),
                   ),
-                  Text(description != null ? description : " ")
+                  Text(description != null ? description : " "),
                 ],
               ),
             ),

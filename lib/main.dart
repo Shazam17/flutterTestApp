@@ -13,7 +13,6 @@ class RealApp extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-
     return new RealAppState();
   }
 }
@@ -23,7 +22,6 @@ class RealAppState extends State<RealApp>{
 
   var isLoading = false;
   final url = "https://test.kode-t.ru/recipes";
-
   var recipes;
 
   fetchData() async{
@@ -31,29 +29,18 @@ class RealAppState extends State<RealApp>{
     
     final response = await http.get(url);
     print(response);
-
     if(response.statusCode == 200){
       print("HTTP OK");
-
       final map = json.decode(response.body);
       final jsonRecipes = map["recipes"];
-
-
-     /* recipes.forEach((recipe){
-        print(recipe["name"]);
-      });
-      */
       setState(() {
-
         isLoading = false;
         this.recipes = jsonRecipes;
       });
     }
-
     if(response.statusCode == 404){
       print("HTTP NOT FOUND");
     }
-
   }
 
   @override
@@ -61,31 +48,31 @@ class RealAppState extends State<RealApp>{
 
     return new MaterialApp(
       home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text("realy cool app"),
-          actions: <Widget>[
-            new IconButton(icon: new Icon(Icons.refresh), onPressed: (){
-              print("Reloading");
-              setState(() {
-                isLoading = true;
-              });
-              fetchData();
-            })
-          ],
-        ),
-        body: new Center(
-          child: isLoading ? new CircularProgressIndicator() : new ListView.builder(
-              itemCount: this.recipes != null ? this.recipes.length : 0,
-              itemBuilder: (context , i){
-                return new FlatButton(onPressed: (){
+          appBar: new AppBar(
+            title: new Text("realy cool app"),
+            actions: <Widget>[
+              new IconButton(icon: new Icon(Icons.refresh), onPressed: (){
+                print("Reloading");
+                setState(() {
+                  isLoading = true;
+                });
+                fetchData();
+              })
+            ],
+          ),
+          body: new Center(
+            child: isLoading ? new CircularProgressIndicator() : new ListView.builder(
+                itemCount: this.recipes != null ? this.recipes.length : 0,
+                itemBuilder: (context , i){
+                  return new FlatButton(onPressed: (){
                     Navigator.push(context,new MaterialPageRoute(
                         builder:(context) => new RecipeDetails(recipes[i]))
                     );
-                }, child: new RecipeWidget(recipes[i]));
-              }
+                  }, child: new RecipeWidget(recipes[i]));
+                }
 
-          ),
-        )
+            ),
+          )
       ),
     );
   }
