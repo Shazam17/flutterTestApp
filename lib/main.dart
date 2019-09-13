@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
+import 'RecipeWidget.dart';
+import 'RecipeDetails.dart';
 
 void main() => runApp(RealApp());
 
@@ -89,62 +91,5 @@ class RealAppState extends State<RealApp>{
   }
 }
 
-class RecipeWidget extends StatelessWidget{
-
-  final recipe;
-
-  RecipeWidget(this.recipe);
-
-  @override
-  Widget build(BuildContext context) {
-
-    final description = recipe["description"];
-    final name = recipe["name"];
-
-    return new Container(
-        margin: new EdgeInsets.all(20),
-        decoration: new BoxDecoration(
-          color: Colors.green,
-          borderRadius: new BorderRadius.circular(40),
-
-        ),
-
-        child: new Column(
-          children: <Widget>[
-            new Divider(),
-            new Image.network(recipe["images"][0]),
-            new Container(
-              padding: new EdgeInsets.all(10.0),
-              child: new Column(
-                children: <Widget>[
-                  new Text(name,style: new TextStyle(fontSize: 16.0),
-                  ),
-                  new Text(description != null ? description : " ")
-                ],
-              ),
-            ),
-
-          ],
-        )
-    );
-  }
-}
-
-class RecipeDetails extends StatelessWidget{
-
-  final recipe;
-
-  RecipeDetails(this.recipe);
 
 
-  @override
-  Widget build(BuildContext context) {
-      return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(recipe["name"]),
-        ),
-       body: new RecipeWidget(recipe) ,
-      );
-  }
-
-}
