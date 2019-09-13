@@ -66,7 +66,7 @@ class RealAppState extends State<RealApp>{
                 itemBuilder: (context , i){
                   return new FlatButton(onPressed: (){
                     Navigator.push(context,new MaterialPageRoute(
-                        builder:(context) => new RecipeDetails(recipes[i]))
+                        builder:(context) {var rec = new RecipeDetails();rec.setUUID(recipes[i]["uuid"]);  return rec;} )
                     );
                   }, child: new RecipeWidget(recipes[i]));
                 }

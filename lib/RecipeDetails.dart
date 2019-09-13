@@ -5,10 +5,38 @@ import 'dart:io';
 import 'dart:convert';
 import 'RecipeWidget.dart';
 
-class RecipeDetails extends StatelessWidget {
-  final recipe;
 
-  RecipeDetails(this.recipe);
+class RecipeDetails extends StatefulWidget{
+  @override
+
+  var rec;
+  var uuid;
+
+  RecipeDetail(rec){
+    this.rec = rec;
+  }
+
+  setRecipe(recipe){
+    rec = recipe;
+  }
+  setUUID(id){
+    uuid = id;
+  }
+
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    var state = RecipeDetailsState();
+    state.setRecipe(rec);
+    return state;
+  }
+}
+
+class RecipeDetailsState extends State<RecipeDetails> {
+  var recipe;
+
+  setRecipe(rec){
+    this.recipe =rec;
+  }
 
   @override
   Widget build(BuildContext context) {
